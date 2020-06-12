@@ -24,6 +24,7 @@
     "eslint": "^7.2.0",
     "eslint-plugin-react": "^7.20.0",
     "prettier": "2.0.5",
+    "redux-devtools": "^3.5.0",
     "typescript": "3.7.3"
   },
   "license": "ISC"
