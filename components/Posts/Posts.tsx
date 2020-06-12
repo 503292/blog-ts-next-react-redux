@@ -1,6 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import * as API from '../../services/api';
 
+import s from 'styled-components';
+
+const Container = s.ul`
+  color: lightgrey;
+
+  padding: 0;
+`;
+
+const OnePost = s.li`
+  color: blue;
+  border: 2px solid lightgrey;
+  border-radius: 10px;
+  list-style-type: none;
+  margin-bottom: 10px;
+  padding: 10px;
+`;
+
 type PostsType = {
   id: number | null;
   title: string | null;
@@ -8,7 +25,7 @@ type PostsType = {
 };
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     API.getPosts()
@@ -25,14 +42,14 @@ const Posts = () => {
   return (
     <>
       Posts
-      <ul>
+      <Container>
         {posts.map(el => (
-          <li key={el.id}>
-            <p>{el.title}</p>
+          <OnePost key={el.id}>
+            <h4>{el.title}</h4>
             <p>{el.body}</p>
-          </li>
+          </OnePost>
         ))}
-      </ul>
+      </Container>
     </>
   );
 };

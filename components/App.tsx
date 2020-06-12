@@ -1,16 +1,23 @@
 import React from 'react';
 import Posts from './Posts/Posts';
-import styled from 'styled-components';
+import Navbar from './Navbar/Navbar';
+import Head from 'next/head';
+import s from 'styled-components';
 
-const Container = styled.div`
-  font-size: 1.5em;
-  text-align: center;
+const Container = s.div`
+//   font-size: 1.5em;
+//   text-align: center;
   color: palevioletred;
 `;
 
 const App = () => (
   <Container>
-    <h2>App</h2>
+    <Head>
+      <title>blog</title>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </Head>
+    <Navbar />
     <Posts />
   </Container>
 );
