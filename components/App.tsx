@@ -10,7 +10,7 @@ const Container = styled.div`
 
 const App = () => (
   <Container>
-    <h2>Apppprrrrrr</h2>
+    <h2>App</h2>
     <Posts />
   </Container>
 );
