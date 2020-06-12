@@ -5,12 +5,11 @@ import s from 'styled-components';
 
 const Container = s.ul`
   color: lightgrey;
-
   padding: 0;
 `;
 
 const OnePost = s.li`
-  color: blue;
+  color: #363643;
   border: 2px solid lightgrey;
   border-radius: 10px;
   list-style-type: none;
@@ -31,7 +30,6 @@ const Posts = () => {
     API.getPosts()
       .then(response => {
         const posts: Array<PostsType> = response.data as Array<PostsType>;
-        // console.log(posts, 'posts');
         setPosts(posts);
       })
       .catch(error => {
@@ -41,7 +39,6 @@ const Posts = () => {
 
   return (
     <>
-      Posts
       <Container>
         {posts.map(el => (
           <OnePost key={el.id}>

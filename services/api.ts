@@ -8,3 +8,4 @@ axios.defaults.headers.patch['Content-Type'] = 'application/json';
 axios.defaults.baseURL = 'https://simple-blog-api.crew.red';
 
 export const getPosts = () => axios.get('/posts');
+export const setPost = (post: any) => axios.post('/posts', post);
