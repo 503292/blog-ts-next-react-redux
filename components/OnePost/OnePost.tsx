@@ -7,11 +7,13 @@ border: 2px solid lightgrey;
 border-radius: 10px;
 padding: 10px;
 color: grey;
+margin-bottom: 10px;
 }`;
 const WrapOnePost = s.div`{
-
+   
 }`;
 const WrapComments = s.div`{
+  margin-bottom: 5px;
 
 }`;
 const CommentsCount = s.p`{
@@ -19,12 +21,48 @@ const CommentsCount = s.p`{
     text-align: end;
 
 }`;
+const InputComment = s.input`{
+    margin: 0;
+    text-align: start;
+    margin-bottom: 10px;
+}`;
+const Form = s.form`{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5px 0;
+}`;
+
+const Button = s.button`{
+  width: 50%;
+  margin: 0 auto;
+  height: 40px;
+  background-color: #7cc8ee;
+  border: 2px solid grey;
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+      color: white;
+      background-color: #67a4c3;
+  }
+  &:active {
+      background-color: #7cc8ee;
+  }`;
+const Comment = s.p`{
+    margin: 0;
+    padding: 5px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }`;
 
 const OnePost = () => {
   // const [post, setPost] = useState<Array<number | string>>([]);
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
+  const [id, setId] = useState<number>(0);
   const [comments, setComments] = useState<Array<string>>([]);
+  const [comment, setComment] = useState<string>('');
 
   useEffect(() => {
     const pathQuery = window.location.pathname;
@@ -34,6 +72,7 @@ const OnePost = () => {
         // setPost(response.data);
         setTitle(response.data.title);
         setBody(response.data.body);
+        setId(response.data.id);
 
         const tmpArr: Array<string> = response.data.comments;
         if (!!tmpArr) {
@@ -45,6 +84,30 @@ const OnePost = () => {
       });
   }, []);
 
+  const handlerChangeComments = (e: any) => {
+    setComment(e.target.value);
+  };
+  const handlerSubmit = (e: any) => {
+    e.preventDefault();
+
+    const newComment: Array<any> = {
+      //@ts-ignore
+      postId: id,
+      title: comment,
+    };
+
+    API.setComment(newComment)
+      .then(response => {
+        console.log('comment add`s ', response.data);
+      })
+      .catch(error => {
+        console.log(error, 'no comment ');
+      });
+
+    setComment('');
+    // console.log(newComment, 'newComment');
+  };
+
   return (
     <>
       <Container>
@@ -55,12 +118,25 @@ const OnePost = () => {
             Coments: {!!comments?.length ? comments.length : 0}
           </CommentsCount>
         </WrapOnePost>
-        {!!comments?.length && (
-          <WrapComments>
-            <>dfff</>
-          </WrapComments>
-        )}
       </Container>
+      {!!comments?.length && (
+        <WrapComments>
+          {comments.map(el => (
+            <Comment key={el.id}>{el.title}</Comment>
+          ))}
+        </WrapComments>
+      )}
+      <Form onSubmit={handlerSubmit}>
+        <InputComment
+          onChange={handlerChangeComments}
+          type="text"
+          name="comment"
+          value={comment}
+          required
+          placeholder="enter comment"
+        />
+        <Button type="submit">Add Comment</Button>
+      </Form>
     </>
   );
 };
