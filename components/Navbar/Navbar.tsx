@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Link from 'next/link';
 
 import s from 'styled-components';
@@ -22,10 +21,10 @@ const Navbar = () => {
   return (
     <Nav>
       <Link href="/">
-        <TopLink>Home Posts</TopLink>
+        <TopLink>BLOG</TopLink>
       </Link>
-      <Link href="/new_posts">
-        <TopLink>New Post</TopLink>
+      <Link href="/new">
+        <TopLink>Add new Post</TopLink>
       </Link>
     </Nav>
   );

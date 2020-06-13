@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as API from '../../services/api';
+import Router from 'next/router';
 
 import s from 'styled-components';
 
@@ -16,6 +17,11 @@ const OnePost = s.li`
   margin-bottom: 10px;
   padding: 10px;
 `;
+
+const OnePostLink = s.a`{
+  cursor: pointer;
+
+}`;
 
 type PostsType = {
   id: number | null;
@@ -37,11 +43,17 @@ const Posts = () => {
       });
   }, []);
 
+  const handlerClick = (id: string) => {
+    console.dir('dd');
+
+    Router.push(`/posts/${id}`);
+  };
+
   return (
     <>
       <Container>
         {posts.map(el => (
-          <OnePost key={el.id}>
+          <OnePost onClick={() => handlerClick(el.id)} key={el.id}>
             <h4>{el.title}</h4>
             <p>{el.body}</p>
           </OnePost>
