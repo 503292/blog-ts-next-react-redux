@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as API from '../../services/api';
 import Router from 'next/router';
+import { connect } from 'react-redux';
+import { deletePost, addPost } from '../../redux/posts/postsActions';
 
 import s from 'styled-components';
 
@@ -8,7 +10,6 @@ const Container = s.ul`
   color: lightgrey;
   padding: 0;
 `;
-
 const OnePost = s.li`
   display: flex;
   color: #363643;
@@ -18,14 +19,9 @@ const OnePost = s.li`
   margin-bottom: 10px;
   padding: 10px;
 `;
-
 const WrapPost = s.div`
   width: 90%;
 `;
-const OnePostLink = s.a`{
-  cursor: pointer;
-
-}`;
 const WrapBtn = s.div`
   display: flex;
   flex-direction: column;
@@ -40,30 +36,38 @@ const UpdateBtn = s.button`
 `;
 
 type PostsType = {
-  id: number | null;
+  id: number | string | null;
   title: string | null;
   body: string | null;
 };
 
-const Posts = () => {
+type PropsType = {
+  deletePost: (id: number) => void;
+  addPost: (id: number) => void;
+};
+
+const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
   const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     API.getPosts()
       .then(response => {
-        const posts: Array<PostsType> = response.data as Array<PostsType>;
+        const posts = response.data;
         setPosts(posts);
+        addPost(posts);
       })
       .catch(error => {
         console.log(error, 'no posts ');
       });
-  }, []);
+  }, [posts]);
 
   const handlerDelete = (id: string) => {
     console.log(id, 'id');
     API.deletePost(id)
       .then(response => console.log('delete is ok'))
       .catch(error => console.log('not delete'));
+
+    deletePost(id);
   };
 
   const handlerClick = (id: string) => {
@@ -90,4 +94,9 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+const mapDispatchToProps = {
+  deletePost,
+  addPost,
+};
+
+export default connect(null, mapDispatchToProps)(Posts);
