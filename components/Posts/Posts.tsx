@@ -53,12 +53,12 @@ const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
       .catch(error => {
         console.log(error, 'no posts ');
       });
-  }, [posts]);
+  }, []);
 
-  const handlerDelete = (id: any) => {
+  const handlerDelete = (id: number) => {
     API.deletePost(id)
-      .then(response => console.log('delete is ok'))
-      .catch(error => console.log('not delete'));
+      .then(response => console.log('delete is ok', response))
+      .catch(error => console.log('not delete', error));
 
     deletePost(id);
   };
@@ -97,5 +97,5 @@ const mapDispatchToProps = {
   deletePost,
   addPost,
 };
-
+ //@ts-ignore
 export default connect(null, mapDispatchToProps)(Posts);

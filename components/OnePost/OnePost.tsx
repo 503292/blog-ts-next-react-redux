@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import GoHome from '../GoHome/GoHome';
 import s from 'styled-components';
 import * as API from '../../services/api';
 
 const Container = s.div`{
-border: 2px solid lightgrey;
-border-radius: 10px;
-padding: 10px;
-color: grey;
-margin-bottom: 10px;
+  color: grey;
 }`;
 const WrapOnePost = s.div`{
-   
+  border: 2px solid lightgrey;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
 }`;
 const WrapComments = s.div`{
   margin-bottom: 5px;
-
 }`;
 const CommentsCount = s.p`{
     margin: 0;
@@ -57,7 +56,6 @@ const Comment = s.p`{
   }`;
 
 const OnePost = () => {
-  // const [post, setPost] = useState<Array<number | string>>([]);
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
   const [id, setId] = useState<number>(0);
@@ -69,7 +67,6 @@ const OnePost = () => {
 
     API.getOnePost(pathQuery)
       .then(response => {
-        // setPost(response.data);
         setTitle(response.data.title);
         setBody(response.data.body);
         setId(response.data.id);
@@ -82,7 +79,7 @@ const OnePost = () => {
       .catch(error => {
         console.log(error, 'no posts ');
       });
-  }, []);
+  }, [id]);
 
   const handlerChangeComments = (e: any) => {
     setComment(e.target.value);
@@ -105,7 +102,6 @@ const OnePost = () => {
       });
 
     setComment('');
-    // console.log(newComment, 'newComment');
   };
 
   return (
@@ -118,25 +114,27 @@ const OnePost = () => {
             Coments: {!!comments?.length ? comments.length : 0}
           </CommentsCount>
         </WrapOnePost>
+
+        {!!comments?.length && (
+          <WrapComments>
+            {comments.map((el: any) => (
+              <Comment key={el.id}>{el.title}</Comment>
+            ))}
+          </WrapComments>
+        )}
+        <Form onSubmit={handlerSubmit}>
+          <InputComment
+            onChange={handlerChangeComments}
+            type="text"
+            name="comment"
+            value={comment}
+            required
+            placeholder="enter comment"
+          />
+          <Button type="submit">Add Comment</Button>
+        </Form>
+        <GoHome />
       </Container>
-      {!!comments?.length && (
-        <WrapComments>
-          {comments.map(el => (
-            <Comment key={el.id}>{el.title}</Comment>
-          ))}
-        </WrapComments>
-      )}
-      <Form onSubmit={handlerSubmit}>
-        <InputComment
-          onChange={handlerChangeComments}
-          type="text"
-          name="comment"
-          value={comment}
-          required
-          placeholder="enter comment"
-        />
-        <Button type="submit">Add Comment</Button>
-      </Form>
     </>
   );
 };

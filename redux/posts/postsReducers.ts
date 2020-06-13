@@ -11,7 +11,9 @@ const postsReducer = (state = [], { type, payload }: PostReducerType): any => {
     case Type.ADD_POST:
       return payload;
     case Type.UPDATE_POST:
-      return state.map(el => (el.id === payload.id ? { ...payload.data } : el));
+      return state.map((el: any) =>
+        el.id === payload.id ? { ...payload.data } : el,
+      );
     case Type.DELETE_POST:
       return state.filter((el: any) => el.id !== payload);
 

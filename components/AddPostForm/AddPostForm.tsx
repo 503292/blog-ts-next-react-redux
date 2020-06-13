@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Router from 'next/router';
 import * as API from '../../services/api';
 import s from 'styled-components';
@@ -7,12 +6,13 @@ import queryString from 'querystring';
 import { connect } from 'react-redux';
 import { getPosts } from '../../redux/posts/postsSelectors';
 import { updatePost } from '../../redux/posts/postsActions';
+import GoHome from '../GoHome/GoHome';
 
 const Form = s.form`{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 5px;
 }`;
 const InfoText = s.p`{
     margin: 0;
@@ -39,16 +39,6 @@ const Button = s.button`{
     }
     &:active {
         background-color: #7cc8ee;
-    }
-}`;
-const HomeLink = s.a`{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: underline;
-    &:hover {
-        color: red;
     }
 }`;
 
@@ -157,9 +147,8 @@ const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }: PropsType) => {
         />
         <Button type="submit">{id ? 'Update Post' : 'Add Post'}</Button>
       </Form>
-      <Link href="/">
-        <HomeLink>Go Home</HomeLink>
-      </Link>
+
+      <GoHome />
     </>
   );
 };
