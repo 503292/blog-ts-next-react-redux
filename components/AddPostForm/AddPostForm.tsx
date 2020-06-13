@@ -52,15 +52,22 @@ const HomeLink = s.a`{
     }
 }`;
 
-type PropsType = {
-  posts: Array<any>;
+type PostsType = {
+  id: number;
+  title: string;
+  body: string;
 };
 
-const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }) => {
-  const [id, setId] = useState('');
+type PropsType = {
+  posts: Array<PostsType>;
+  updatePost: () => void;
+};
+
+const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }: PropsType) => {
+  const [id, setId] = useState(0);
 
   useEffect(() => {
-    const parsed: any = queryString.parse(location.search)['?id'];
+    const parsed: number = Number(queryString.parse(location.search)['?id']);
     if (parsed) {
       setId(parsed);
     }
@@ -68,8 +75,10 @@ const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }) => {
 
   useEffect(() => {
     if (id) {
-      const updatePost = posts.find(el => el.id === Number(id));
-      console.log(updatePost.title, 'updatePost');
+      const updatePost = posts.find(el => el.id === id);
+      if (!updatePost) {
+        return;
+      }
       setTitle(updatePost.title);
       setBody(updatePost.body);
     }
@@ -92,13 +101,16 @@ const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }) => {
   // save
   const handlerSubmit = (e: any) => {
     e.preventDefault();
-
-    const newPost = {
+    // @ts-ignore
+    const newPost: Array<string> = {
+      // @ts-ignore
       title,
+      // @ts-ignore
       body,
     };
 
     if (id) {
+      //@ts-ignore
       API.updatePost(id, newPost)
         .then((response: any) => {
           console.log('update it`s ok', response.data);
@@ -121,7 +133,7 @@ const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }) => {
 
     setTitle('');
     setBody('');
-    setId('');
+    setId(0);
   };
 
   return (
@@ -162,4 +174,5 @@ const mapDispatchToProps = {
   updatePost,
 };
 
+//@ts-ignore
 export default connect(mapStateToProps, mapDispatchToProps)(AddPostForm);

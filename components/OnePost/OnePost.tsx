@@ -3,7 +3,8 @@ import s from 'styled-components';
 import * as API from '../../services/api';
 
 const Container = s.div`{
-border: 1px solid grey;
+border: 2px solid lightgrey;
+border-radius: 10px;
 padding: 10px;
 color: grey;
 }`;
@@ -20,39 +21,41 @@ const CommentsCount = s.p`{
 }`;
 
 const OnePost = () => {
-  const [post, setPost] = useState([]);
+  // const [post, setPost] = useState<Array<number | string>>([]);
+  const [title, setTitle] = useState<string>('');
+  const [body, setBody] = useState<string>('');
+  const [comments, setComments] = useState<Array<string>>([]);
 
   useEffect(() => {
     const pathQuery = window.location.pathname;
 
     API.getOnePost(pathQuery)
       .then(response => {
-        // console.log(response.data, 'data');
-        setPost(response.data);
+        // setPost(response.data);
+        setTitle(response.data.title);
+        setBody(response.data.body);
+
+        const tmpArr: Array<string> = response.data.comments;
+        if (!!tmpArr) {
+          setComments(tmpArr);
+        }
       })
       .catch(error => {
         console.log(error, 'no posts ');
       });
   }, []);
 
-  type TypePost = {
-    title: string;
-    body: string;
-    comments?: Array<string>;
-  };
-
   return (
     <>
       <Container>
         <WrapOnePost>
-          <h4>{post.title}</h4>
-          <p>{post.body}</p>
+          <h4>{title}</h4>
+          <p>{body}</p>
           <CommentsCount>
-            Coments: {!!post?.comments?.length ? post.comments.length : 0}
+            Coments: {!!comments?.length ? comments.length : 0}
           </CommentsCount>
         </WrapOnePost>
-
-        {!!post?.comments?.length && (
+        {!!comments?.length && (
           <WrapComments>
             <>dfff</>
           </WrapComments>

@@ -5,16 +5,22 @@ export const Type = {
   DELETE_POST: 'delete/DELETE_POST',
 };
 
+type PostsType = {
+  id: number;
+  title: string;
+  body: string;
+};
+
 // crud
 export const getPosts = () => ({
   type: Type.GET_POSTS,
 });
 
-export const addPost = (data: any) => ({
+export const addPost = (data: Array<PostsType>) => ({
   type: Type.ADD_POST,
   payload: data,
 });
-export const updatePost = (id: any, data: Array<string>) => ({
+export const updatePost = (id: number, data: Array<PostsType>) => ({
   type: Type.UPDATE_POST,
   payload: { data, id },
 });

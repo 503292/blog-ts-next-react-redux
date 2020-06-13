@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 const UpdatePage = () => {
   return (
     <Provider store={store}>
-      <AddPostForm />;
+      <AddPostForm />
     </Provider>
   );
 };
