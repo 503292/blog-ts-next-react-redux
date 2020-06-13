@@ -28,12 +28,8 @@ const WrapBtn = s.div`
   justify-content: space-between;
 
 `;
-const DeleteBtn = s.button`
-
-`;
-const UpdateBtn = s.button`
-
-`;
+const DeleteBtn = s.button``;
+const UpdateBtn = s.button``;
 
 type PropsType = {
   deletePost: (id: number) => void;
