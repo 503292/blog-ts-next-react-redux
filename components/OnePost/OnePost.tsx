@@ -5,12 +5,15 @@ import * as API from '../../services/api';
 const Container = s.div`{
 border: 1px solid grey;
 padding: 10px;
-
-p {
-    color: grey;
-}
+color: grey;
 }`;
-const Comments = s.p`{
+const WrapOnePost = s.div`{
+
+}`;
+const WrapComments = s.div`{
+
+}`;
+const CommentsCount = s.p`{
     margin: 0;
     text-align: end;
 
@@ -32,14 +35,28 @@ const OnePost = () => {
       });
   }, []);
 
+  type TypePost = {
+    title: string;
+    body: string;
+    comments?: Array<string>;
+  };
+
   return (
     <>
       <Container>
-        <h4>{post.title}</h4>
-        <p>{post.body}</p>
-        <Comments>
-          Coments: {!!post?.comments?.length ? post.comments.length : 0}
-        </Comments>
+        <WrapOnePost>
+          <h4>{post.title}</h4>
+          <p>{post.body}</p>
+          <CommentsCount>
+            Coments: {!!post?.comments?.length ? post.comments.length : 0}
+          </CommentsCount>
+        </WrapOnePost>
+
+        {!!post?.comments?.length && (
+          <WrapComments>
+            <>dfff</>
+          </WrapComments>
+        )}
       </Container>
     </>
   );

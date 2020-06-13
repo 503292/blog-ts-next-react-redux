@@ -10,6 +10,7 @@ const Container = s.ul`
 `;
 
 const OnePost = s.li`
+  display: flex;
   color: #363643;
   border: 2px solid lightgrey;
   border-radius: 10px;
@@ -18,10 +19,25 @@ const OnePost = s.li`
   padding: 10px;
 `;
 
+const WrapPost = s.div`
+  width: 90%;
+`;
 const OnePostLink = s.a`{
   cursor: pointer;
 
 }`;
+const WrapBtn = s.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+`;
+const DeleteBtn = s.button`
+
+`;
+const UpdateBtn = s.button`
+
+`;
 
 type PostsType = {
   id: number | null;
@@ -43,6 +59,13 @@ const Posts = () => {
       });
   }, []);
 
+  const handlerDelete = (id: string) => {
+    console.log(id, 'id');
+    API.deletePost(id)
+      .then(response => console.log('delete is ok'))
+      .catch(error => console.log('not delete'));
+  };
+
   const handlerClick = (id: string) => {
     Router.push(`/posts/${id}`);
   };
@@ -51,9 +74,15 @@ const Posts = () => {
     <>
       <Container>
         {posts.map(el => (
-          <OnePost onClick={() => handlerClick(el.id)} key={el.id}>
-            <h4>{el.title}</h4>
-            <p>{el.body}</p>
+          <OnePost key={el.id}>
+            <WrapPost onClick={() => handlerClick(el.id)}>
+              <h4>{el.title}</h4>
+              <p>{el.body}</p>
+            </WrapPost>
+            <WrapBtn>
+              <UpdateBtn>Update</UpdateBtn>
+              <DeleteBtn onClick={() => handlerDelete(el.id)}>Delete</DeleteBtn>
+            </WrapBtn>
           </OnePost>
         ))}
       </Container>
