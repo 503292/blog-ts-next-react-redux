@@ -3,12 +3,12 @@ import AddPostForm from '../../components/AddPostForm/AddPostForm';
 import { store } from '../../redux/store';
 import { Provider } from 'react-redux';
 
-const PostsPage = () => {
+const UpdatePage = () => {
   return (
     <Provider store={store}>
-      <AddPostForm />
+      <AddPostForm />;
     </Provider>
   );
 };
 
-export default PostsPage;
+export default UpdatePage;

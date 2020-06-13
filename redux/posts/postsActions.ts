@@ -12,13 +12,13 @@ export const getPosts = () => ({
 
 export const addPost = (data: any) => ({
   type: Type.ADD_POST,
-  payload:  data ,
+  payload: data,
 });
-export const updatePost = (data: Array<string>) => ({
+export const updatePost = (id: any, data: Array<string>) => ({
   type: Type.UPDATE_POST,
-  payload:  data ,
+  payload: { data, id },
 });
-export const deletePost = (id: string) => ({
+export const deletePost = (id: number) => ({
   type: Type.DELETE_POST,
-  payload:  id ,
+  payload: id,
 });

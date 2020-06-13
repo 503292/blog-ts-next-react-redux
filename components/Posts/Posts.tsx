@@ -35,12 +35,6 @@ const UpdateBtn = s.button`
 
 `;
 
-type PostsType = {
-  id: number | string | null;
-  title: string | null;
-  body: string | null;
-};
-
 type PropsType = {
   deletePost: (id: number) => void;
   addPost: (id: number) => void;
@@ -61,8 +55,7 @@ const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
       });
   }, [posts]);
 
-  const handlerDelete = (id: string) => {
-    console.log(id, 'id');
+  const handlerDelete = (id: any) => {
     API.deletePost(id)
       .then(response => console.log('delete is ok'))
       .catch(error => console.log('not delete'));
@@ -72,6 +65,10 @@ const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
 
   const handlerClick = (id: string) => {
     Router.push(`/posts/${id}`);
+  };
+
+  const redirectToUpdate = (id: any) => {
+    Router.push(`/posts/update?id=${id}`);
   };
 
   return (
@@ -84,7 +81,9 @@ const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
               <p>{el.body}</p>
             </WrapPost>
             <WrapBtn>
-              <UpdateBtn>Update</UpdateBtn>
+              <UpdateBtn onClick={() => redirectToUpdate(el.id)}>
+                Update
+              </UpdateBtn>
               <DeleteBtn onClick={() => handlerDelete(el.id)}>Delete</DeleteBtn>
             </WrapBtn>
           </OnePost>

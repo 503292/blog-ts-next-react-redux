@@ -11,5 +11,5 @@ export const getPosts = () => axios.get('/posts');
 export const setPost = (post: any) => axios.post('/posts', post);
 export const getOnePost = (query: string) => axios.get(query);
 export const updatePost = (query: string, body: Array<string>) =>
-  axios.put(query, body);
+  axios.put(`/posts/${query}`, body);
 export const deletePost = (id: string) => axios.delete(`posts/${id}`);

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import * as API from '../../services/api';
 import s from 'styled-components';
+import queryString from 'querystring';
+import { connect } from 'react-redux';
+import { getPosts } from '../../redux/posts/postsSelectors';
+import { updatePost } from '../../redux/posts/postsActions';
 
 const Form = s.form`{
     display: flex;
@@ -48,7 +52,29 @@ const HomeLink = s.a`{
     }
 }`;
 
-const AddPostForm = () => {
+type PropsType = {
+  posts: Array<any>;
+};
+
+const AddPostForm: React.FC<PropsType> = ({ posts, updatePost }) => {
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    const parsed: any = queryString.parse(location.search)['?id'];
+    if (parsed) {
+      setId(parsed);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      const updatePost = posts.find(el => el.id === Number(id));
+      console.log(updatePost.title, 'updatePost');
+      setTitle(updatePost.title);
+      setBody(updatePost.body);
+    }
+  }, [id]);
+
   // title
   const [title, setTitle] = useState('');
 
@@ -71,19 +97,31 @@ const AddPostForm = () => {
       title,
       body,
     };
-    // console.log(newPost, 'newPost');
 
-    API.setPost(newPost)
-      .then(response => {
-        console.log('it`s ok', response.data);
-        Router.push('/');
-      })
-      .catch(error => {
-        console.log(error, 'no posts ');
-      });
+    if (id) {
+      API.updatePost(id, newPost)
+        .then((response: any) => {
+          console.log('update it`s ok', response.data);
+          Router.push('/');
+          updatePost();
+        })
+        .catch((error: any) => {
+          console.log(error, 'no posts ');
+        });
+    } else {
+      API.setPost(newPost)
+        .then(response => {
+          console.log('create it`s ok', response.data);
+          Router.push('/');
+        })
+        .catch(error => {
+          console.log(error, 'no posts ');
+        });
+    }
 
     setTitle('');
     setBody('');
+    setId('');
   };
 
   return (
@@ -105,7 +143,7 @@ const AddPostForm = () => {
           value={body}
           required
         />
-        <Button type="submit">Add Post</Button>
+        <Button type="submit">{id ? 'Update Post' : 'Add Post'}</Button>
       </Form>
       <Link href="/">
         <HomeLink>Go Home</HomeLink>
@@ -114,4 +152,14 @@ const AddPostForm = () => {
   );
 };
 
-export default AddPostForm;
+const mapStateToProps = (state: any) => {
+  return {
+    posts: getPosts(state),
+  };
+};
+
+const mapDispatchToProps = {
+  updatePost,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPostForm);
