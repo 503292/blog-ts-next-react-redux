@@ -44,8 +44,6 @@ const Posts = () => {
   }, []);
 
   const handlerClick = (id: string) => {
-    console.dir('dd');
-
     Router.push(`/posts/${id}`);
   };
 

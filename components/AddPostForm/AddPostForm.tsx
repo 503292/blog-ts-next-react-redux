@@ -71,7 +71,7 @@ const AddPostForm = () => {
       title,
       body,
     };
-    console.log(newPost, 'newPost');
+    // console.log(newPost, 'newPost');
 
     API.setPost(newPost)
       .then(response => {

@@ -23,7 +23,7 @@ const Navbar = () => {
       <Link href="/">
         <TopLink>BLOG</TopLink>
       </Link>
-      <Link href="/new">
+      <Link href="posts/new">
         <TopLink>Add new Post</TopLink>
       </Link>
     </Nav>
