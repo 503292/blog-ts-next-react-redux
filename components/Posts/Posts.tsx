@@ -55,12 +55,22 @@ const Posts: React.FC<PropsType> = ({ deletePost, addPost }) => {
       });
   }, []);
 
-  const handlerDelete = (id: number) => {
-    API.deletePost(id)
+  const handlerDelete = async (id: number) => {
+    await API.deletePost(id)
       .then(response => console.log('delete is ok', response))
       .catch(error => console.log('not delete', error));
 
     deletePost(id);
+
+    await API.getPosts()
+      .then(response => {
+        const posts = response.data;
+        setPosts(posts);
+        addPost(posts);
+      })
+      .catch(error => {
+        console.log(error, 'no posts ');
+      });
   };
 
   const handlerClick = (id: string) => {
@@ -97,5 +107,5 @@ const mapDispatchToProps = {
   deletePost,
   addPost,
 };
- //@ts-ignore
+//@ts-ignore
 export default connect(null, mapDispatchToProps)(Posts);
