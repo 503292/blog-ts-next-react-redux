@@ -4,10 +4,16 @@ import * as API from '../../services/api';
 
 const Container = s.div`{
 border: 1px solid grey;
+padding: 10px;
 
 p {
-    color: red;
+    color: grey;
 }
+}`;
+const Comments = s.p`{
+    margin: 0;
+    text-align: end;
+
 }`;
 
 const OnePost = () => {
@@ -26,13 +32,16 @@ const OnePost = () => {
       });
   }, []);
 
-  console.log(post);
-
   return (
-    <Container>
-      <h4>{post.title}</h4>
-      <p>{post.body}</p>
-    </Container>
+    <>
+      <Container>
+        <h4>{post.title}</h4>
+        <p>{post.body}</p>
+        <Comments>
+          Coments: {!!post?.comments?.length ? post.comments.length : 0}
+        </Comments>
+      </Container>
+    </>
   );
 };
 
