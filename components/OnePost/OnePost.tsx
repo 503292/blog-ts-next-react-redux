@@ -84,7 +84,7 @@ const OnePost = () => {
   const handlerChangeComments = (e: any) => {
     setComment(e.target.value);
   };
-  const handlerSubmit = (e: any) => {
+  const handlerSubmit =  (e: any) => {
     e.preventDefault();
 
     const newComment: Array<any> = {
@@ -93,9 +93,10 @@ const OnePost = () => {
       title: comment,
     };
 
-    API.setComment(newComment)
+     API.setComment(newComment)
       .then(response => {
         console.log('comment add`s ', response.data);
+        setComments(prev => [...prev, response.data]);
       })
       .catch(error => {
         console.log(error, 'no comment ');
